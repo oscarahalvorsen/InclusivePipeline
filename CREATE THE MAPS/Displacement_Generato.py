@@ -45,7 +45,7 @@ def show_images_pygame(matrix, save_image=False, file_name="Displacement_finalte
     pygame.display.flip()  # Update the entire screen
 
     if save_image:
-        save_directory = r"C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\React\3D_Saloon\dis-project\public"
+        save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\3D GENERARTOR\dis-project\public"
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
         pygame.image.save(surface, os.path.join(save_directory, file_name))  # Save the displayed image with specified file name
@@ -62,7 +62,7 @@ def show_images_pygame(matrix, save_image=False, file_name="Displacement_finalte
 def load_images(image_size):
     images = {}
     for i in range(3):  # Assuming you have images 0.png, 1.png, 2.png
-        img_path = rf"C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\Code\{i}.png"
+        img_path = rf"C:\Users\oscar\oscar\myProjects\polimi\inclusive\3dconverter\CREATE THE MAPS\{i}.png"
         try:
             image = pygame.image.load(img_path).convert()
             image = pygame.transform.scale(image, (int(image_size), int(image_size)))

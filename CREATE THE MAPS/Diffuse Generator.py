@@ -75,7 +75,7 @@ def show_images_pygame(matrix, save_image=False, file_name="diffuse_finaltest.pn
     pygame.display.update()
 
     if save_image:
-        save_directory = r"C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\React\3D_Saloon\dis-project\public"
+        save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\3D GENERARTOR\dis-project\public"
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
         pygame.image.save(screen, os.path.join(save_directory, file_name))  # Save the displayed image with specified file name
@@ -91,7 +91,7 @@ def show_images_pygame(matrix, save_image=False, file_name="diffuse_finaltest.pn
 # Step 3: Load images with specified width and height
 def load_images(image_width, image_height):
     images = {}
-    image_folder = r'C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\Code\COLOR'
+    image_folder = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\COLOR'
     for i in range(12):  # Assuming you have images 0.png, 1.png, 2.png
         img_path = os.path.join(image_folder, f"{i}.png")
         image = pygame.image.load(img_path).convert()
