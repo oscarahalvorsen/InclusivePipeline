@@ -17,7 +17,7 @@ const Scene = () => {
           map={diffuseTexture} 
           //normalMap={normalTexture} 
           displacementMap={displacementTexture}
-          displacementScale={1} // adjust the scale as needed
+          displacementScale={0.5} // adjust the scale as needed
           roughness={5} // Set the roughness here, value ranges from 0 to 1
           metalness={0}
 
