@@ -1,7 +1,6 @@
 import pygame
 import openpyxl
 import os
-import pandas as pd
 
 # Step 1: Get data from Excel file
 def read_excel(file_path):
@@ -28,12 +27,6 @@ def show_images_pygame(matrix, save_image=False, file_name="diffuse_finaltest.pn
     # Calculate screen size based on matrix size and image size
     screen_width = cols * image_size
     screen_height = rows * image_size
-
-    # Ensure that the screen dimensions are square
-    if screen_width != screen_height:
-        max_size = max(screen_width, screen_height)
-        screen_width = max_size
-        screen_height = max_size
 
     screen = pygame.display.set_mode((int(screen_width), int(screen_height)))
     pygame.display.set_caption("Images from Excel")

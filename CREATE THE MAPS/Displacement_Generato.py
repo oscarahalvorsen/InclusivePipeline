@@ -34,7 +34,6 @@ def show_images_pygame(matrix, save_image=False, file_name="Displacement_finalte
 
     # Create a new surface to blit images onto
     surface = pygame.Surface((cols * image_size, rows * image_size))
-    print(matrix)
     for i, row in enumerate(matrix):
         for j, num in enumerate(row):
             if num==0:
