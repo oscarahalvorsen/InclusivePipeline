@@ -2,14 +2,7 @@ import pygame
 import os
 import openpyxl
 
-# Function to read data from an Excel file
-def read_excel(file_path):
-    wb = openpyxl.load_workbook(file_path)
-    ws = wb.active
-    matrix = []
-    for row in ws.iter_rows(values_only=True):
-        matrix.append(list(row))
-    return matrix
+
 
 # Function to load images into a dictionary
 def load_images(image_width, image_height):
@@ -27,7 +20,7 @@ def load_images(image_width, image_height):
 
 
 # Function to render images based on the matrix and save them
-def show_images_pygame(matrix, save_image=False, file_name="diffuse_finaltest.png"):
+def display_image(matrix, save_image=False, file_name="diffuse_finaltest.png"):
     pygame.init()
 
     # Calculate total number of rows and columns
@@ -59,10 +52,8 @@ def show_images_pygame(matrix, save_image=False, file_name="diffuse_finaltest.pn
     pygame.quit()
 
 # Main function to execute the workflow
-def main():
-    input_file_path = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\Excel_test.xlsx'
-    matrix = read_excel(input_file_path)
-    show_images_pygame(matrix, save_image=True, file_name="diffuse_finaltest.png")
+def main(matrix):
+    display_image(matrix, save_image=True, file_name="diffuse_finaltest.png")
 
 if __name__ == "__main__":
     main()
