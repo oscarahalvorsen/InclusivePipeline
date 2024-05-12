@@ -3,30 +3,6 @@ import openpyxl
 import os
 import pandas as pd
 
-# Read the Excel file and modify it based on conditions
-def process_excel(input_file_path, output_file_path):
-    df = pd.read_excel(input_file_path, header=None)
-
-    # Define a function to update the values
-    def update_value(value, current_max):
-        if value == 0 or value == 2:  # Keep 2 unchanged
-            return value
-        elif value == 1:
-            return current_max
-
-    # Iterate through each cell and update the values
-    current_max = 2
-    for i in range(len(df)):
-        for j in range(len(df.columns)):
-            df.at[i, j] = update_value(df.at[i, j], current_max)
-        if all(value == 2 for value in df.iloc[i]): # Check if all values in a row are 2
-            current_max += 1
-            if current_max == 2:  # To start from 3 instead of 4
-                current_max += 1
-
-    # Write the modified data to a new Excel file
-    df.to_excel(output_file_path, header=False, index=False)
-
 # Step 1: Get data from Excel file
 def read_excel(file_path):
     wb = openpyxl.load_workbook(file_path)
@@ -101,14 +77,10 @@ def load_images(image_width, image_height):
 
 # Step 4: Main function
 def main():
-    input_file_path = r'C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\Code\Chair.xlsx'
-    output_file_path = r'C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\Code\Chair_Color.xlsx'
-    
-    # Process the Excel file to modify based on conditions
-    process_excel(input_file_path, output_file_path)
+    input_file_path = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\Excel_test.xlsx'
 
     # Read the modified Excel file
-    matrix = read_excel(output_file_path)
+    matrix = read_excel(input_file_path)
 
     # Show images based on numbers using Pygame
     show_images_pygame(matrix, save_image=True)  # Set save_image=True to save the image

@@ -34,11 +34,15 @@ def show_images_pygame(matrix, save_image=False, file_name="Displacement_finalte
 
     # Create a new surface to blit images onto
     surface = pygame.Surface((cols * image_size, rows * image_size))
-
+    print(matrix)
     for i, row in enumerate(matrix):
         for j, num in enumerate(row):
-            if num in images:
-                surface.blit(images[num], (j * image_size, i * image_size))
+            if num==0:
+                surface.blit(images[2], (j * image_size, i * image_size))
+            elif num==1:
+                surface.blit(images[0], (j * image_size, i * image_size))
+            else:
+                surface.blit(images[1], (j * image_size, i * image_size))
 
     screen.blit(surface, (0, 0))  # Blit the surface onto the screen
 
@@ -77,7 +81,7 @@ def export_image(matrix):
 
 # Step 5: Main function
 def main():
-    file_path = r'C:\POLIMI\2023-2024\SEM02-2023-2024\Digital Inclusive Design\Code\Chair.xlsx'
+    file_path = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\Excel_test.xlsx'
     matrix = read_excel(file_path)
     export_image(matrix)
 
