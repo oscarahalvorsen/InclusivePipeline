@@ -12,7 +12,7 @@ def run_pipeline():
     seat_map = cvs_converter.generate_seat_map(image_path)
     
     # Use the generated seat map as input for the diffuse_generator and displacement_generator
-    diffuse_generator.display_image(seat_map, save_image=True)
+    diffuse_generator.display_image(seat_map)
     displacement_generator.display_image(seat_map)
 
 if __name__ == "__main__":

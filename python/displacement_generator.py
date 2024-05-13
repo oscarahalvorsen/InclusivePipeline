@@ -21,7 +21,7 @@ def load_images(image_size):
     return images
 
 # Show images based on numbers using Pygame without a display window
-def display_image(matrix, file_name="Displacement_finaltest.png"):
+def display_image(matrix, file_name="displacement_finaltest.png"):
     # Calculate screen size based on matrix size and image size
     image_size = 100  # Default image size
     rows, cols = len(matrix), len(matrix[0])
