@@ -46,10 +46,20 @@ def get_user_input(prompt, input_type=int):
             print("Invalid input. Please try again.")
 
 def display_groupings(groupings):
-    """ Displays available row groupings. """
+    """ Displays available row groupings based on their names. """
+    if len(groupings) == 1:
+        return 0  # Directly return index 0 if there's only one group
+    elif len(groupings) == 2:
+        group_names = ["Front", "Back"]
+    elif len(groupings) == 3:
+        group_names = ["Front", "Middle", "Back"]
+    else:
+        group_names = [f"Group {i + 1}" for i in range(len(groupings))]
+
     print(f"This venue contains {len(groupings)} groupings. The available row groupings are: ")
     for i, group in enumerate(groupings):
-        print(f"Group {i + 1}: Rows {group[0][0]} to {group[-1][0]}")
+        print(f"{group_names[i]}: Rows {group[0][0]} to {group[-1][0]}")
+    return group_names
 
 def choose_row(group):
     """ Allows user to choose a specific row within a group. """
@@ -73,17 +83,22 @@ def choose_row(group):
 def main():
     seat_map = cap_values(matrix)
     groupings = parse_seat_map(seat_map)
-    display_groupings(groupings)
-    while True:
-        group_choice = get_user_input("Please choose a grouping by its group number (or type 'exit' to quit): ")
+    group_names = display_groupings(groupings)
+    if isinstance(group_names, list):
+        group_choice = get_user_input("Please choose a grouping (or type 'exit' to quit): ", str)
         if group_choice == 'exit':
-            break
-        if 0 <= group_choice - 1 < len(groupings):
-            result = choose_row(groupings[group_choice - 1])
-            if result in ['exit', 'success']:
-                break
+            return
+        if group_choice in group_names:
+            group_index = group_names.index(group_choice)
         else:
             print("Invalid grouping choice.")
+            return
+    else:
+        group_index = group_names  # If group_names is not a list, it's the index 0 directly
+
+    result = choose_row(groupings[group_index])
+    if result in ['exit', 'success']:
+        return
 
 if __name__ == "__main__":
     main()
