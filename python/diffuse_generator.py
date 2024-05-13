@@ -7,7 +7,7 @@ import openpyxl
 # Function to load images into a dictionary
 def load_images(image_width, image_height):
     images = {}
-    image_folder = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\COLOR'
+    image_folder = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\python\COLOR'
     pygame.display.init()  # Initialize display
     pygame.display.set_mode((1, 1))  # Create the smallest window possible
     for i in range(12):  # Assuming you have images 0.png to 11.png
@@ -44,7 +44,7 @@ def display_image(matrix, save_image=False, file_name="diffuse_finaltest.png"):
                 surface.blit(images[num], (j * image_size, i * image_size))
 
     if save_image:
-        save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\3D GENERARTOR\dis-project\public"
+        save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\frontend\public"
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
         pygame.image.save(surface, os.path.join(save_directory, file_name))  # Save the rendered surface

@@ -6,7 +6,7 @@ import displacement_generator
 
 def run_pipeline():
     # Define the path to the image you want to process
-    image_path = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\CREATE THE MAPS\saloon5.png'
+    image_path = r'C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\python\saloon5.png'
     
     # Generate the seat map using the cvs_converter
     seat_map = cvs_converter.generate_seat_map(image_path)
