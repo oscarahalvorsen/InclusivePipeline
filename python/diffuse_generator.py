@@ -1,8 +1,5 @@
 import pygame
 import os
-import openpyxl
-
-
 
 # Function to load images into a dictionary
 def load_images(image_width, image_height):
@@ -18,9 +15,8 @@ def load_images(image_width, image_height):
     pygame.display.quit()  # Close the display if not needed anymore
     return images
 
-
 # Function to render images based on the matrix and save them
-def display_image(matrix, save_image=False, file_name="diffuse_finaltest.png"):
+def display_image(matrix, file_name="diffuse_image.png"):
     pygame.init()
 
     # Calculate total number of rows and columns
@@ -43,17 +39,16 @@ def display_image(matrix, save_image=False, file_name="diffuse_finaltest.png"):
             if num in images:
                 surface.blit(images[num], (j * image_size, i * image_size))
 
-    if save_image:
-        save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\frontend\public"
-        if not os.path.exists(save_directory):
-            os.makedirs(save_directory)
-        pygame.image.save(surface, os.path.join(save_directory, file_name))  # Save the rendered surface
+    save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\frontend\public"
+    if not os.path.exists(save_directory):
+        os.makedirs(save_directory)
+    pygame.image.save(surface, os.path.join(save_directory, file_name))  # Save the rendered surface
 
     pygame.quit()
 
 # Main function to execute the workflow
-def main(matrix):
-    display_image(matrix, save_image=True, file_name="diffuse_finaltest.png")
+def main(matrix, file_name):
+    display_image(matrix, file_name)
 
 if __name__ == "__main__":
     main()

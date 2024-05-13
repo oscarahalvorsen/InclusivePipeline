@@ -5,9 +5,9 @@ import { TextureLoader } from "three";
 
 const Scene = () => {
   // Load the textures
-  const diffuseTexture = new TextureLoader().load("/diffuse_finaltest.png");
+  const diffuseTexture = new TextureLoader().load("/diffuse_image.png");
   //const normalTexture = new TextureLoader().load("/DefaultMaterial_Normal.png");
-  const displacementTexture = new TextureLoader().load("/Displacement_finaltest.png");
+  const displacementTexture = new TextureLoader().load("/displacement_image.png");
 
   return (
     <group>
