@@ -44,7 +44,6 @@ def generate_seat_map(image_path):
 
 def main(image_path):
     seat_map = generate_seat_map(image_path)
-    print(seat_map)  # Print or further process seat_map as needed
     return seat_map
 
 if __name__ == "__main__":
