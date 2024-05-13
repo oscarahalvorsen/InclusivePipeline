@@ -13,7 +13,7 @@ def run_pipeline():
     
     # Use the generated seat map as input for the diffuse_generator and displacement_generator
     diffuse_generator.display_image(seat_map, save_image=True)
-    displacement_generator.display_image(seat_map, save_image=True)
+    displacement_generator.display_image(seat_map)
 
 if __name__ == "__main__":
     run_pipeline()

@@ -11,7 +11,7 @@ pygame.display.set_mode((1, 1))  # Set up a minimal display to satisfy Pygame's 
 def load_images(image_size):
     images = {}
     for i in range(3):  # Assuming you have images 0.png, 1.png, 2.png
-        img_path = rf"C:\Users\oscar\oscar\myProjects\polimi\inclusive\3dconverter\python\{i}.png"
+        img_path = rf"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\python\{i}.png"
         try:
             image = pygame.image.load(img_path)
             image = pygame.transform.scale(image, (int(image_size), int(image_size)))
@@ -32,12 +32,10 @@ def display_image(matrix, file_name="Displacement_finaltest.png"):
 
     for i, row in enumerate(matrix):
         for j, num in enumerate(row):
-            if num == 0:
-                surface.blit(images[2], (j * image_size, i * image_size))
-            elif num == 1:
-                surface.blit(images[0], (j * image_size, i * image_size))
+            if num == 0 or num == 1:
+                surface.blit(images[num], (j * image_size, i * image_size))
             else:
-                surface.blit(images[1], (j * image_size, i * image_size))
+                surface.blit(images[2], (j * image_size, i * image_size))
 
     save_directory = r"C:\Users\oscar\oscar\myProjects\polimi\inclusive\InclusivePipeline\frontend\public"
     if not os.path.exists(save_directory):
