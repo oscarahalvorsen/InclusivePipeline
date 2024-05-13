@@ -12,9 +12,11 @@ def parse_seat_map(seat_map):
     """ Parses the seat map into groupings separated by empty rows. """
     groupings = []
     current_group = []
+    row_counter = 0  # Initialize counter for non-zero rows
     for index, row in enumerate(seat_map):
         if any(seat != 0 for seat in row):
-            current_group.append((index, row))
+            row_counter += 1  # Increment for each non-zero row
+            current_group.append((row_counter, row))  # Store the row with the updated counter
         else:
             if current_group:
                 groupings.append(current_group)
