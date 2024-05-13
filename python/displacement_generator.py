@@ -1,5 +1,4 @@
 import pygame
-import openpyxl
 import os
 
 # Initialize Pygame with a dummy video driver
@@ -21,7 +20,7 @@ def load_images(image_size):
     return images
 
 # Show images based on numbers using Pygame without a display window
-def display_image(matrix, file_name="displacement_finaltest.png"):
+def display_image(matrix, file_name="displacement_image.png"):
     # Calculate screen size based on matrix size and image size
     image_size = 100  # Default image size
     rows, cols = len(matrix), len(matrix[0])
@@ -45,8 +44,8 @@ def display_image(matrix, file_name="displacement_finaltest.png"):
     pygame.quit()
 
 # Main function
-def main(matrix):
-    display_image(matrix)
+def main(matrix, file_name):
+    display_image(matrix, file_name)
 
 if __name__ == "__main__":
     main()

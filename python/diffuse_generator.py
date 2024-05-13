@@ -1,8 +1,5 @@
 import pygame
 import os
-import openpyxl
-
-
 
 # Function to load images into a dictionary
 def load_images(image_width, image_height):
@@ -18,9 +15,8 @@ def load_images(image_width, image_height):
     pygame.display.quit()  # Close the display if not needed anymore
     return images
 
-
 # Function to render images based on the matrix and save them
-def display_image(matrix, file_name="diffuse_finaltest.png"):
+def display_image(matrix, file_name="diffuse_image.png"):
     pygame.init()
 
     # Calculate total number of rows and columns
@@ -51,8 +47,8 @@ def display_image(matrix, file_name="diffuse_finaltest.png"):
     pygame.quit()
 
 # Main function to execute the workflow
-def main(matrix):
-    display_image(matrix, file_name="diffuse_finaltest.png")
+def main(matrix, file_name):
+    display_image(matrix, file_name)
 
 if __name__ == "__main__":
     main()
