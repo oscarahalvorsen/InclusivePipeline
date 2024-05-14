@@ -8,7 +8,7 @@ def cap_values(matrix):
                 matrix[i][j] = 2
     return matrix
 
-def parse_seat_map(seat_map):
+def get_groupings(seat_map):
     """ Parses the seat map into groupings separated by empty rows. """
     groupings = []
     current_group = []
@@ -24,17 +24,87 @@ def parse_seat_map(seat_map):
                 current_group = []
     if current_group:
         groupings.append(current_group)
-    print(groupings)
     return groupings
 
-def find_nearest_rows(group, chosen_row_index):
-    """ Finds nearest rows with available seats. """
-    available_rows = [index for index, row in group if any(seat == 2 for seat in row)]
-    if not available_rows:
-        return None, None
-    before = [index for index in available_rows if index < chosen_row_index]
-    after = [index for index in available_rows if index > chosen_row_index]
-    return max(before, default=None), min(after, default=None)
+def get_seatmap_data(seat_map):
+    total_seats = sum(1 for row in seat_map for element in row if element != 0)
+    empty_seats = sum(1 for row in seat_map for element in row if element == 2)
+    total_rows = sum(any(value != 0 for value in row) for row in seat_map) if seat_map else 0
+    total_columns = sum(any(col != 0 for col in column) for column in zip(*seat_map)) if seat_map else 0
+    return {"total_seats": total_seats, "empty_seats": empty_seats, "total_rows": total_rows, "total_columns": total_columns}
+
+def display_groupings(groupings, seat_map_data):
+    """ Displays available row groupings. """
+    print(f"This venue contains a total of {seat_map_data['empty_seats']} empty seats, distributed over {seat_map_data['total_rows']} rows and {seat_map_data['total_columns']}.") 
+    print(f"The available row groupings are, from front to back: ")
+    if len(groupings)==2:
+        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {2} (back): Rows {group[0][0]} to {group[-1][0]}")
+    if len(groupings)==3:
+        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {2} (middle): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {3} (back): Rows {group[0][0]} to {group[-1][0]}")
+    for i, group in enumerate(groupings):
+        print(f"Group {i + 1}: Rows {group[0][0]} to {group[-1][0]}")
+
+def choose_row(group, group_nr):
+    """ Allows user to choose a specific row within a group. """
+    while True:
+        print(f"Available rows group {group_nr}: ", [index for index, empty_seat_count, row in group if empty_seat_count>0])
+        chosen_row_index = get_user_input("Please enter the row number you would like to sit in (or type 'exit' to quit): ")
+        if chosen_row_index == 'exit':
+            return 'exit'
+        
+        chosen_row = next((row for index, empty_seat_count, row in group if index == chosen_row_index), None)
+        if chosen_row:
+            if any(seat == 2 for seat in chosen_row):
+                if get_user_input(f"You chose row {chosen_row_index}. Are you happy with your choice? (yes/no)", str).lower() == 'yes':
+                    print("Row chosen successfully!")
+                    return chosen_row, chosen_row_index
+                else:
+                    return 'exit'
+            else:
+                print(f"Sorry, there are no empty seats in row nr. {chosen_row_index}.")
+                if get_user_input("Would you like to choose another row? (yes/no): ", str).lower() != 'yes':
+                    return 'exit'
+        else:
+                print(f"Sorry, row nr. {chosen_row_index} is not int grouping 2.")
+                if get_user_input("Would you like to choose another row? (yes/no): ", str).lower() != 'yes':
+                    return 'exit'
+
+def choose_seat(row, row_nr):
+    row_data = get_seatmap_data([row])
+    i = 0
+    row_numbered = [0 if n == 0 or n == 1 else (i:=i+1)-1 for n in row if n == 0 or (i:=i+1)]
+    available_seats = [seat for seat in row_numbered if seat != 0]
+    while True:
+        print(f"There are a total of {row_data['empty_seats']} empty seats in row nr. {row_nr}")
+
+        if (row_data['empty_seats'] == 1):
+            index = row.index(2) if 2 in row else None
+            print(f"The empty seat is on number seat nr. {row_numbered[index]}")
+            
+            if get_user_input(f"Do you want to chose seat nr. {row_numbered[index]} on row {row_nr}.? (yes/no)", str).lower() == 'yes':
+                print(f"Seat chosen successfully! You have chosen seat nr. {row_numbered[index]} on row {row_nr}.")
+                return index
+        
+        print(f"Available seats in row nr. {row_nr} are: {available_seats}")
+        chosen_seat_index = get_user_input("Please enter the seat number you would like to sit in (or type 'exit' to quit): ")
+
+        if chosen_seat_index == 'exit':
+            return 'exit'
+
+        if chosen_seat_index not in available_seats:
+            print(f'Seat nr. {chosen_seat_index} is not an available seat in row {row_nr}.')
+            if get_user_input("Would you like to choose another seat? (yes/no): ", str).lower() != 'yes':
+                return 'exit'
+
+        if get_user_input(f"You chose seat {chosen_seat_index} on row {row_nr}. Are you happy with your choice? (yes/no)", str).lower() == 'yes':
+            print("Seat chosen successfully!")
+            return available_seats.index(chosen_seat_index)
+        else:
+            return 'exit'
+        
 
 def get_user_input(prompt, input_type=int):
     """ Generic function to get user input and handle common errors. """
@@ -47,52 +117,21 @@ def get_user_input(prompt, input_type=int):
         except ValueError:
             print("Invalid input. Please try again.")
 
-def display_groupings(groupings):
-    """ Displays available row groupings. """
-    print(f"This venue contains {len(groupings)} groupings. The available row groupings are, from front to back: ")
-    if len(groupings)==2:
-        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
-        print(f"Group {2} (back): Rows {group[0][0]} to {group[-1][0]}")
-    if len(groupings)==3:
-        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
-        print(f"Group {2} (middle): Rows {group[0][0]} to {group[-1][0]}")
-        print(f"Group {3} (back): Rows {group[0][0]} to {group[-1][0]}")
-    for i, group in enumerate(groupings):
-        print(f"Group {i + 1}: Rows {group[0][0]} to {group[-1][0]}")
-
-def choose_row(group):
-    """ Allows user to choose a specific row within a group. """
-    while True:
-        print("Available rows in this grouping: ", [index for index, empty_seat_count, row in group if empty_seat_count>0])
-        chosen_row_index = get_user_input("Please enter the row number you would like to sit in (or type 'exit' to quit): ")
-        if chosen_row_index == 'exit':
-            return 'exit'
-        
-        chosen_row = next((row for index, empty_seat_count, row in group if index == chosen_row_index), None)
-        if chosen_row and any(seat == 2 for seat in chosen_row):
-            if get_user_input(f"You chose row {chosen_row_index}. Are you happy with your choice? (yes/no)", str).lower() == 'yes':
-                print("Row chosen successfully!")
-                return 'success'
-            else:
-                return 'exit'
-        else:
-            print("No empty seats in chosen row.")
-            nearest_before, nearest_after = find_nearest_rows(group, chosen_row_index)
-            print(f"Nearest available row before: {nearest_before}, after: {nearest_after}")
-            if get_user_input("Would you like to choose another row? (yes/no): ", str).lower() != 'yes':
-                return 'exit'
-
 def main():
     seat_map = cap_values(matrix)
-    groupings = parse_seat_map(seat_map)
-    display_groupings(groupings)
+    groupings = get_groupings(seat_map)
+    seat_map_data = get_seatmap_data(seat_map)
+    display_groupings(groupings, seat_map_data)
     while True:
         group_choice = get_user_input("Please choose a grouping by its group number (or type 'exit' to quit): ")
         if group_choice == 'exit':
             break
         if 0 <= group_choice - 1 < len(groupings):
-            result = choose_row(groupings[group_choice - 1])
-            if result in ['exit', 'success']:
+            row = choose_row(groupings[group_choice - 1], group_choice)
+            if row == 'exit':
+                break
+            elif isinstance(row, tuple):
+                choose_seat(row[0], row[1])
                 break
         else:
             print("Invalid grouping choice.")
