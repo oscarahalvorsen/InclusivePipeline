@@ -16,13 +16,15 @@ def parse_seat_map(seat_map):
     for index, row in enumerate(seat_map):
         if any(seat != 0 for seat in row):
             row_counter += 1  # Increment for each non-zero row
-            current_group.append((row_counter, row))  # Store the row with the updated counter
+            empty_seat_count = sum(1 for element in row if element == 2)
+            current_group.append((row_counter, empty_seat_count, row))  # Store the row with the updated counter
         else:
             if current_group:
                 groupings.append(current_group)
                 current_group = []
     if current_group:
         groupings.append(current_group)
+    print(groupings)
     return groupings
 
 def find_nearest_rows(group, chosen_row_index):
@@ -47,22 +49,32 @@ def get_user_input(prompt, input_type=int):
 
 def display_groupings(groupings):
     """ Displays available row groupings. """
-    print(f"This venue contains {len(groupings)} groupings. The available row groupings are: ")
+    print(f"This venue contains {len(groupings)} groupings. The available row groupings are, from front to back: ")
+    if len(groupings)==2:
+        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {2} (back): Rows {group[0][0]} to {group[-1][0]}")
+    if len(groupings)==3:
+        print(f"Group {1} (front): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {2} (middle): Rows {group[0][0]} to {group[-1][0]}")
+        print(f"Group {3} (back): Rows {group[0][0]} to {group[-1][0]}")
     for i, group in enumerate(groupings):
         print(f"Group {i + 1}: Rows {group[0][0]} to {group[-1][0]}")
 
 def choose_row(group):
     """ Allows user to choose a specific row within a group. """
     while True:
-        print("Available rows in this grouping: ", [index for index, row in group])
-        chosen_row_index = get_user_input("Please enter the row index you would like to sit in (or type 'exit' to quit): ")
+        print("Available rows in this grouping: ", [index for index, empty_seat_count, row in group if empty_seat_count>0])
+        chosen_row_index = get_user_input("Please enter the row number you would like to sit in (or type 'exit' to quit): ")
         if chosen_row_index == 'exit':
             return 'exit'
         
-        chosen_row = next((row for index, row in group if index == chosen_row_index), None)
+        chosen_row = next((row for index, empty_seat_count, row in group if index == chosen_row_index), None)
         if chosen_row and any(seat == 2 for seat in chosen_row):
-            print("Row chosen successfully! Exiting program.")
-            return 'success'
+            if get_user_input(f"You chose row {chosen_row_index}. Are you happy with your choice? (yes/no)", str).lower() == 'yes':
+                print("Row chosen successfully!")
+                return 'success'
+            else:
+                return 'exit'
         else:
             print("No empty seats in chosen row.")
             nearest_before, nearest_after = find_nearest_rows(group, chosen_row_index)
